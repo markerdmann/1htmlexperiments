@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- meta {
+    "title": "Aurora Drift",
+    "description": "A hero for an experiential brand: responsive aurora light that follows every move, framing launches for creative suites, galleries, or visionary hardware.",
+    "tags": ["canvas", "gradient", "ambient"],
+    "accent": "#9be7ff",
+    "thumbnail": "thumbs/aurora.png"
+  } -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="One-File Lab">
+  <meta property="og:title" content="Aurora Drift">
+  <meta property="og:description" content="A hero for an experiential brand: responsive aurora light that follows every move, framing launches for creative suites, galleries, or visionary hardware.">
+  <meta property="og:url" content="https://markerdmann.github.io/1htmlexperiments/experiments/aurora.html">
+  <meta property="og:image" content="https://markerdmann.github.io/1htmlexperiments/thumbs/aurora.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Aurora Drift">
+  <meta name="twitter:description" content="A hero for an experiential brand: responsive aurora light that follows every move, framing launches for creative suites, galleries, or visionary hardware.">
+  <meta name="twitter:image" content="https://markerdmann.github.io/1htmlexperiments/thumbs/aurora.png?v=2">
+  <meta name="twitter:image:src" content="https://markerdmann.github.io/1htmlexperiments/thumbs/aurora.png?v=2">
+  <meta name="twitter:image:alt" content="Aurora Drift ambient gradient hero">
+  <title>Aurora Drift</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap");
+    :root {
+      --bg: #030712;
+      --glow-1: #74f9ff;
+      --glow-2: #ff8cbf;
+      --glow-3: #7cf296;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: #e8f1ff; font-family: "Space Grotesk", "Neue Haas Grotesk", "Atkinson Hyperlegible", system-ui, -apple-system, sans-serif; }
+    canvas { display: block; width: 100%; height: 100%; filter: blur(12px) saturate(1.1); }
+    .label {
+      position: fixed;
+      left: 2rem; bottom: 2rem;
+      padding: 0.65rem 1rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(16px);
+      border-radius: 999px;
+      font-size: 0.95rem;
+      letter-spacing: 0.01em;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="aurora"></canvas>
+  <div class="label">Move your cursor — it steers the aurora</div>
+  <script>
+    const canvas = document.getElementById("aurora");
+    const ctx = canvas.getContext("2d");
+    const layers = Array.from({ length: 3 }, (_, i) => ({
+      hue: [175, 320, 120][i],
+      radius: 280 + i * 140,
+      offset: Math.random() * Math.PI * 2,
+      speed: 0.0006 + i * 0.0002,
+    }));
+    let pointer = { x: 0.5, y: 0.5 };
+
+    const resize = () => {
+      canvas.width = innerWidth * devicePixelRatio;
+      canvas.height = innerHeight * devicePixelRatio;
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+    };
+
+    const loop = (time) => {
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      layers.forEach((layer, i) => {
+        const t = time * layer.speed + layer.offset;
+        const cx = innerWidth * (0.5 + Math.cos(t) * 0.12 + (pointer.x - 0.5) * 0.4);
+        const cy = innerHeight * (0.35 + Math.sin(t * 0.8) * 0.1 + (pointer.y - 0.5) * 0.35);
+        const r = layer.radius + Math.sin(t * 1.2) * 80;
+        const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+        gradient.addColorStop(0, `hsla(${layer.hue}, 85%, 70%, 0.85)`);
+        gradient.addColorStop(0.6, `hsla(${layer.hue + 20}, 80%, 65%, 0.35)`);
+        gradient.addColorStop(1, "hsla(210, 60%, 8%, 0)");
+        ctx.globalCompositeOperation = i === 0 ? "lighter" : "screen";
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, innerWidth, innerHeight);
+      });
+      requestAnimationFrame(loop);
+    };
+
+    addEventListener("pointermove", (e) => {
+      pointer = { x: e.clientX / innerWidth, y: e.clientY / innerHeight };
+    });
+
+    addEventListener("resize", resize);
+    resize();
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

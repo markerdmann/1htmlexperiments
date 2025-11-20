@@ -8,7 +8,7 @@
       "dashboard",
       "tailwind"
     ],
-    "path": "experiments/vaporwave-nexus.html",
+    "path": "vaporwave-nexus.html",
     "thumbnail": "thumbs/vaporwave-nexus.png",
     "accent": "#ff2a6d",
     "date": "2025-11-20"
@@ -23,7 +23,7 @@
       "ai",
       "tailwind"
     ],
-    "path": "experiments/pivotly.html",
+    "path": "pivotly.html",
     "thumbnail": "thumbs/pivotly.png",
     "accent": "#1E65FF",
     "date": "2025-11-20"
@@ -38,7 +38,7 @@
       "finance",
       "tailwind"
     ],
-    "path": "experiments/loss-platform.html",
+    "path": "loss-platform.html",
     "thumbnail": "thumbs/loss-platform.png",
     "accent": "#ff2a6d",
     "date": "2025-11-20"
@@ -52,7 +52,7 @@
       "gradient",
       "ambient"
     ],
-    "path": "experiments/aurora.html",
+    "path": "aurora.html",
     "thumbnail": "thumbs/aurora.png",
     "accent": "#9be7ff",
     "date": "2025-11-20"
@@ -66,8 +66,8 @@
       "overlay",
       "neon"
     ],
-    "path": "experiments/aether-os.html",
-    "thumbnail": "",
+    "path": "aether-os.html",
+    "thumbnail": "thumbs/aether-os.png",
     "accent": "#39FF14",
     "date": "2025-11-20"
   }

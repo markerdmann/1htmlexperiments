@@ -56,6 +56,11 @@ const collect = async () => {
     const stats = await fs.stat(fullPath);
     const base = path.basename(file, path.extname(file));
     const slug = meta.slug ? slugify(meta.slug) : slugify(base);
+
+    // Copy to root as .html
+    const publicPath = path.join(repoRoot, `${slug}.html`);
+    await fs.copyFile(fullPath, publicPath);
+
     let thumbnail = meta.thumbnail || "";
     const thumbCandidate = path.join(repoRoot, "thumbs", `${slug}.png`);
     if (!thumbnail && (await fileExists(thumbCandidate))) {
@@ -66,7 +71,7 @@ const collect = async () => {
       title: meta.title || base.replace(/[-_]/g, " ") || "Untitled",
       description: meta.description || "",
       tags: Array.isArray(meta.tags) ? meta.tags : [],
-      path: `experiments/${file}`,
+      path: `${slug}.html`,
       thumbnail,
       accent: meta.accent || pickAccent(slug),
       date: meta.date || stats.mtime.toISOString().slice(0, 10),

@@ -31,8 +31,14 @@ const startServer = () =>
       try {
         const reqPath = decodeURIComponent(new URL(req.url, `http://localhost:${port}`).pathname);
         const normalized = reqPath === "/" ? "/index.html" : reqPath;
-        const filePath = path.join(repoRoot, normalized.replace(/^\//, ""));
-        const stat = await fs.stat(filePath).catch(() => null);
+        let filePath = path.join(repoRoot, normalized.replace(/^\//, ""));
+        let stat = await fs.stat(filePath).catch(() => null);
+
+        if (stat && stat.isDirectory()) {
+          filePath = path.join(filePath, "index.html");
+          stat = await fs.stat(filePath).catch(() => null);
+        }
+
         if (!stat || stat.isDirectory()) {
           res.statusCode = 404;
           res.end("Not found");
