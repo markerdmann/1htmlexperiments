@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "aurora",
+    "title": "Aurora Drift",
+    "description": "Animated aurora made from layered gradients and mouse parallax.",
+    "tags": [
+      "canvas",
+      "gradient",
+      "ambient"
+    ],
+    "path": "experiments/aurora.html",
+    "thumbnail": "",
+    "accent": "#9be7ff",
+    "date": "2025-11-20"
+  }
+]
