@@ -56,5 +56,19 @@
     "thumbnail": "thumbs/aurora.png",
     "accent": "#9be7ff",
     "date": "2025-11-20"
+  },
+  {
+    "slug": "aether-os",
+    "title": "AETHER // OS",
+    "description": "Neon loader that tunnels through a green screen into a cyber control room.",
+    "tags": [
+      "landing",
+      "overlay",
+      "neon"
+    ],
+    "path": "experiments/aether-os.html",
+    "thumbnail": "",
+    "accent": "#39FF14",
+    "date": "2025-11-20"
   }
 ]
