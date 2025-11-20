@@ -14,6 +14,21 @@
     "date": "2025-11-20"
   },
   {
+    "slug": "loss-platform",
+    "title": "LOSS Platform",
+    "description": "Retro-futuristic finance dashboard for the 75-cent dollar with neon grid, cards, and holographic widgets.",
+    "tags": [
+      "vaporwave",
+      "dashboard",
+      "finance",
+      "tailwind"
+    ],
+    "path": "experiments/loss-platform.html",
+    "thumbnail": "",
+    "accent": "#ff2a6d",
+    "date": "2025-11-20"
+  },
+  {
     "slug": "aurora",
     "title": "Aurora Drift",
     "description": "Animated aurora made from layered gradients and mouse parallax.",
