@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- meta {
+      "title": "Pivotly",
+      "description": "Automate your corporate synergy: AI that schedules meetings about meetings, drafts excuses, and keeps the exec dashboard glowing while nothing ships.",
+      "tags": ["saas", "satire", "ai", "tailwind"],
+      "accent": "#1E65FF",
+      "thumbnail": "thumbs/pivotly.png",
+      "date": "2025-11-20"
+    } -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="One-File Lab">
+    <meta property="og:title" content="Pivotly | AI-Driven Synergy Orchestration">
+    <meta property="og:description" content="Automate your corporate synergy: AI that schedules meetings about meetings, drafts excuses, and keeps the exec dashboard glowing while nothing ships.">
+    <meta property="og:url" content="https://markerdmann.github.io/1htmlexperiments/experiments/pivotly.html">
+    <meta property="og:image" content="https://markerdmann.github.io/1htmlexperiments/thumbs/pivotly.png?v=2">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pivotly | AI-Driven Synergy Orchestration">
+    <meta name="twitter:description" content="Automate your corporate synergy: AI that schedules meetings about meetings, drafts excuses, and keeps the exec dashboard glowing while nothing ships.">
+    <meta name="twitter:image" content="https://markerdmann.github.io/1htmlexperiments/thumbs/pivotly.png?v=2">
+    <meta name="twitter:image:src" content="https://markerdmann.github.io/1htmlexperiments/thumbs/pivotly.png?v=2">
+    <meta name="twitter:image:alt" content="Pivotly hero with corporate synergy headline and dashboard UI">
+    <title>Pivotly | AI-Driven Synergy Orchestration</title>
+    
+    <!-- Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#E0EAFF',
+                            100: '#CCDDFF',
+                            500: '#3B82F6',
+                            600: '#1E65FF', /* Vivid Royal Blue */
+                            700: '#1040C0',
+                        },
+                        surface: '#FFFFFF',
+                        canvas: '#F5F7FA',
+                        text: {
+                            main: '#101828',
+                            body: '#475467',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px rgba(0,0,0,0.04)',
+                        'glow': '0 0 40px rgba(30, 101, 255, 0.15)',
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F5F7FA;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* The Blueprint Grid Logic */
+        .blueprint-grid {
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .blueprint-line-v {
+            width: 1px;
+            background-image: linear-gradient(to bottom, #D0D5DD 50%, transparent 50%);
+            background-size: 1px 12px; /* Dashed effect */
+            height: 100%;
+        }
+
+        .blueprint-line-h {
+            height: 1px;
+            width: 100%;
+            background-image: linear-gradient(to right, #D0D5DD 50%, transparent 50%);
+            background-size: 12px 1px;
+            position: absolute;
+            z-index: 0;
+        }
+
+        /* Animations Utils */
+        .anim-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* SVG Line Animations */
+        .path-draw {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F5F7FA; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D0D5DD; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #98A2B3; 
+        }
+    </style>
+</head>
+<body class="text-text-body relative">
+
+    <!-- 2. Navigation Components -->
+    
+    <!-- Announcement Bar -->
+    <div class="bg-brand-600 w-full py-2.5 px-4 flex items-center justify-center relative overflow-hidden z-50">
+        <div class="flex items-center gap-3 text-sm text-white font-medium z-10">
+            <span class="bg-white/20 px-2 py-0.5 rounded text-xs uppercase tracking-wide">New</span>
+            <span>Pivotly AI 2.0: Now generates excuses for missed deadlines.</span>
+            <a href="#" class="hidden sm:flex items-center gap-1 hover:underline group">
+                Learn more 
+                <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </a>
+        </div>
+        <button class="absolute right-4 text-white/70 hover:text-white">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+
+    <!-- Main Navbar -->
+    <nav class="sticky top-0 w-full h-[72px] z-40 glass-panel border-b border-gray-200/50">
+        <div class="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
+            <!-- Left: Logo -->
+            <div class="flex items-center gap-3 cursor-pointer">
+                <div class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center shadow-lg shadow-brand-600/30">
+                    <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 20L20 4"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold text-text-main tracking-tight">Pivotly</span>
+            </div>
+
+            <!-- Center: Links -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#" class="text-sm font-medium hover:text-brand-600 transition-colors">Solutions</a>
+                <a href="#" class="text-sm font-medium hover:text-brand-600 transition-colors">Synergy</a>
+                <a href="#" class="text-sm font-medium hover:text-brand-600 transition-colors">Pricing</a>
+                <a href="#" class="text-sm font-medium hover:text-brand-600 transition-colors">Enterprise</a>
+            </div>
+
+            <!-- Right: Buttons -->
+            <div class="flex items-center gap-4">
+                <button class="hidden sm:block px-4 py-2 text-sm font-medium text-text-body hover:text-text-main transition-colors">Log in</button>
+                <button class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-brand-600/20 flex items-center gap-2 transition-all transform hover:scale-105">
+                    Get Started
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3. Hero Section -->
+    <section class="relative pt-24 pb-24 flex flex-col items-center overflow-hidden">
+        <!-- Ambient Background Glow -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-brand-500/5 rounded-full blur-[100px] -z-10"></div>
+
+        <div class="text-center max-w-4xl px-6 z-10">
+            <div class="inline-block mb-6 px-4 py-1.5 rounded-full bg-brand-50 border border-brand-100 text-brand-600 text-sm font-medium animate-fade-in-up">
+                ✨ Voted #1 Tool for Pretending to Work
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-text-main tracking-tight leading-[1.1] mb-6 hero-title">
+                Automate your<br>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-purple-500">Corporate Synergy</span>
+            </h1>
+            <p class="text-xl text-text-body max-w-2xl mx-auto leading-relaxed hero-sub">
+                Pivotly leverages holistic AI paradigms to circle back on low-hanging fruit, ensuring your deliverables are actionable before the EOD deep dive.
+            </p>
+            
+            <div class="mt-10 flex justify-center gap-4 hero-btns">
+                <button class="bg-brand-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-xl shadow-brand-600/30 hover:shadow-brand-600/50 transition-all transform hover:-translate-y-1">
+                    Schedule a Deep Dive
+                </button>
+                <button class="bg-white text-text-main border border-gray-200 px-8 py-4 rounded-2xl text-lg font-semibold hover:bg-gray-50 transition-all">
+                    View Touchbase
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Anchor / Connector -->
+    <div class="w-full flex justify-center relative h-16 z-20">
+        <div class="absolute top-0 h-full w-px bg-dashed-gray"></div> <!-- Dashed vertical continuation -->
+        <button class="w-12 h-12 bg-brand-600 rounded-full flex items-center justify-center text-white shadow-xl ring-4 ring-canvas z-10 transform transition-transform hover:rotate-90" aria-label="Scroll down">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </button>
+    </div>
+
+    <!-- 4. Feature Grid (The Blueprint Layout) -->
+    <section class="w-full border-t border-dashed border-gray-300 relative">
+        
+        <!-- The Blueprint Grid Container -->
+        <div class="blueprint-grid max-w-7xl mx-auto">
+            
+            <!-- Left Column -->
+            <div class="flex flex-col gap-0 relative">
+                
+                <!-- Card 1: Market Research (Tree Diagram) -->
+                <div class="p-8 md:p-12 border-b border-dashed border-gray-300 group hover:bg-white/50 transition-colors">
+                    <!-- Visual Area -->
+                    <div class="bg-white rounded-3xl p-8 shadow-soft mb-8 h-[300px] relative overflow-hidden border border-gray-100 card-visual">
+                        <div class="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-30"></div>
+                        
+                        <!-- Diagram: Tree -->
+                        <div class="relative h-full w-full flex flex-col items-center justify-center pt-4">
+                            <!-- Parent -->
+                            <div class="bg-white border border-gray-200 shadow-md rounded-full px-4 py-2 text-sm font-semibold text-text-main z-10 flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></div>
+                                Research in progress...
+                            </div>
+                            
+                            <!-- Connector Lines (SVG) -->
+                            <svg class="w-full h-16 overflow-visible stroke-gray-300 stroke-2" fill="none">
+                                <path d="M 150 0 L 150 20 Q 150 40 80 40 L 80 60" vector-effect="non-scaling-stroke" class="path-draw"></path>
+                                <path d="M 150 0 L 150 60" vector-effect="non-scaling-stroke" class="path-draw"></path>
+                                <path d="M 150 0 L 150 20 Q 150 40 220 40 L 220 60" vector-effect="non-scaling-stroke" class="path-draw"></path>
+                            </svg>
+
+                            <!-- Children -->
+                            <div class="flex gap-4 mt-0">
+                                <!-- Node 1 -->
+                                <div class="w-24 h-20 bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col items-center justify-center gap-2 transform transition-all hover:-translate-y-1 hover:shadow-md">
+                                    <div class="w-6 h-6 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center text-xs">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
+                                    <div class="h-1 w-12 bg-gray-100 rounded"></div>
+                                </div>
+                                <!-- Node 2 -->
+                                <div class="w-24 h-20 bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col items-center justify-center gap-2 transform transition-all hover:-translate-y-1 hover:shadow-md">
+                                    <div class="w-6 h-6 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center text-xs">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                    </div>
+                                    <div class="h-1 w-12 bg-gray-100 rounded"></div>
+                                </div>
+                                <!-- Node 3 -->
+                                <div class="w-24 h-20 bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col items-center justify-center gap-2 transform transition-all hover:-translate-y-1 hover:shadow-md">
+                                    <div class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center animate-spin">
+                                        <svg class="w-3 h-3 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 4"></path></svg>
+                                    </div>
+                                    <div class="h-1 w-12 bg-gray-100 rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Area -->
+                    <div>
+                        <h3 class="text-2xl font-bold text-text-main mb-3">Pre-Meeting Optimization</h3>
+                        <p class="text-text-body mb-6 leading-relaxed">
+                            Our AI analyzes calendar density to schedule meetings about upcoming meetings, ensuring maximum calendar block usage.
+                        </p>
+                        <a href="#" class="inline-flex items-center font-semibold text-brand-600 hover:text-brand-700 group">
+                            Explore Schedules
+                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 3: Optimization (A/B Testing) -->
+                <div class="p-8 md:p-12 group hover:bg-white/50 transition-colors">
+                    <div class="bg-white rounded-3xl p-8 shadow-soft mb-8 h-[300px] relative overflow-hidden border border-gray-100 flex items-center justify-center card-visual">
+                        <div class="absolute top-4 right-4 flex gap-2">
+                             <div class="bg-green-100 text-green-600 text-xs font-bold px-2 py-1 rounded">A/B Active</div>
+                        </div>
+                        
+                        <!-- Diagram: Branching -->
+                        <div class="flex items-center gap-8 w-full justify-center">
+                            <!-- Main -->
+                            <div class="relative w-24 h-32 bg-gray-50 border border-gray-200 rounded-lg shadow-sm flex flex-col gap-2 p-2">
+                                <div class="w-full h-16 bg-gray-200 rounded-md overflow-hidden">
+                                    <img src="https://ui-avatars.com/api/?name=A&background=random" class="w-full h-full object-cover opacity-50" alt="Variant A">
+                                </div>
+                                <div class="w-full h-2 bg-gray-200 rounded"></div>
+                                <div class="w-2/3 h-2 bg-gray-200 rounded"></div>
+                                <!-- Connector Point -->
+                                <div class="absolute -right-1 top-1/2 w-2 h-2 bg-brand-600 rounded-full transform translate-x-1/2"></div>
+                            </div>
+
+                            <!-- Lines -->
+                            <svg class="w-16 h-32 overflow-visible stroke-gray-300 stroke-dashed" style="stroke-dasharray: 4 4;">
+                                <path d="M 0 64 C 30 64, 30 32, 64 32" fill="none" stroke-width="2"></path>
+                                <path d="M 0 64 C 30 64, 30 96, 64 96" fill="none" stroke-width="2"></path>
+                            </svg>
+
+                            <!-- Variants -->
+                            <div class="flex flex-col gap-4">
+                                <!-- V1 -->
+                                <div class="w-20 h-24 bg-white border-2 border-brand-200 rounded-lg shadow-md p-1 relative transform scale-105">
+                                    <div class="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full shadow-sm">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"></path></svg>
+                                    </div>
+                                    <div class="w-full h-10 bg-brand-50 rounded mb-1"></div>
+                                    <div class="w-full h-1 bg-gray-100 rounded mb-1"></div>
+                                </div>
+                                <!-- V2 -->
+                                <div class="w-20 h-24 bg-gray-50 border border-gray-200 rounded-lg p-1 opacity-60">
+                                     <div class="w-full h-10 bg-gray-200 rounded mb-1"></div>
+                                     <div class="w-full h-1 bg-gray-200 rounded mb-1"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-text-main mb-3">Slide Deck Inflation</h3>
+                        <p class="text-text-body mb-6 leading-relaxed">
+                            Turn a one-page memo into a 45-slide presentation automatically. Features include "Venn Diagrams that make no sense."
+                        </p>
+                        <a href="#" class="inline-flex items-center font-semibold text-brand-600 hover:text-brand-700 group">
+                            Inflate Assets
+                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Center Dashed Line (Visual only, structure is grid gap) -->
+            <div class="blueprint-line-v hidden md:block relative"></div>
+
+            <!-- Right Column -->
+            <div class="flex flex-col gap-0 relative">
+
+                <!-- Card 2: Ad Creation (Funnel / Convergence) -->
+                <div class="p-8 md:p-12 border-b border-dashed border-gray-300 group hover:bg-white/50 transition-colors">
+                     <div class="bg-white rounded-3xl p-8 shadow-soft mb-8 h-[300px] relative overflow-hidden border border-gray-100 card-visual flex flex-col justify-center">
+                        
+                        <!-- Inputs -->
+                        <div class="flex justify-between px-4 mb-4">
+                            <div class="px-3 py-1 bg-gray-50 border border-gray-200 rounded-full text-xs text-gray-500 font-medium">Buzzwords</div>
+                            <div class="px-3 py-1 bg-gray-50 border border-gray-200 rounded-full text-xs text-gray-500 font-medium">Q4 Trends</div>
+                            <div class="px-3 py-1 bg-gray-50 border border-gray-200 rounded-full text-xs text-gray-500 font-medium">Exec Summary</div>
+                        </div>
+
+                        <!-- Funnel Lines -->
+                        <svg class="w-full h-20 overflow-visible stroke-brand-200" stroke-width="2" fill="none">
+                            <path d="M 50 0 C 50 40, 150 10, 150 80" class="path-draw"></path>
+                            <path d="M 150 0 L 150 80" class="path-draw"></path>
+                            <path d="M 250 0 C 250 40, 150 10, 150 80" class="path-draw"></path>
+                        </svg>
+
+                        <!-- Central Processing Node -->
+                        <div class="w-full flex justify-center -mt-2 relative z-10">
+                             <div class="w-14 h-14 bg-brand-600 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-600/30 anim-float">
+                                <svg class="w-8 h-8 text-white animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                             </div>
+                        </div>
+
+                        <!-- Output -->
+                        <div class="w-full flex justify-center mt-4">
+                            <div class="w-48 h-12 bg-gray-100 rounded-lg animate-pulse flex items-center px-3 gap-2">
+                                <div class="w-4 h-4 bg-gray-300 rounded-full"></div>
+                                <div class="h-2 bg-gray-300 rounded w-24"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-text-main mb-3">Thought Leadership Generator</h3>
+                        <p class="text-text-body mb-6 leading-relaxed">
+                            Aggregates LinkedIn trends to generate profound statements like "Culture is a shared hallucination of value."
+                        </p>
+                        <a href="#" class="inline-flex items-center font-semibold text-brand-600 hover:text-brand-700 group">
+                            Start Ideating
+                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 4: Reporting (Dashboard Integration) -->
+                <div class="p-8 md:p-12 group hover:bg-white/50 transition-colors">
+                    <div class="bg-white rounded-3xl p-8 shadow-soft mb-8 h-[300px] relative overflow-hidden border border-gray-100 flex items-center justify-center card-visual perspective-container">
+                        
+                        <!-- Tilted Dashboard -->
+                        <div class="relative w-64 h-40 bg-white border border-gray-200 rounded-xl shadow-xl p-3 transform -rotate-6 skew-x-3 translate-y-[-10px] z-10 transition-transform hover:rotate-0 hover:skew-x-0 hover:scale-105 duration-500">
+                            <!-- Dash Header -->
+                            <div class="flex items-center justify-between mb-3 border-b border-gray-100 pb-2">
+                                <div class="w-16 h-2 bg-gray-300 rounded"></div>
+                                <div class="w-4 h-4 bg-brand-100 rounded-full text-brand-600 flex items-center justify-center text-[8px]">?</div>
+                            </div>
+                            <!-- Charts -->
+                            <div class="flex gap-2 h-20 items-end mb-2">
+                                <div class="w-1/4 h-[40%] bg-brand-200 rounded-t"></div>
+                                <div class="w-1/4 h-[70%] bg-brand-300 rounded-t"></div>
+                                <div class="w-1/4 h-[50%] bg-brand-400 rounded-t"></div>
+                                <div class="w-1/4 h-[90%] bg-brand-600 rounded-t"></div>
+                            </div>
+                        </div>
+
+                        <!-- Notification Bell Connector -->
+                        <div class="absolute top-1/2 left-1/2 transform translate-x-20 translate-y-10 z-20">
+                            <div class="relative">
+                                <div class="w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center border border-gray-100">
+                                    <svg class="w-5 h-5 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                                </div>
+                                <div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></div>
+                            </div>
+                            <!-- Connection Lines -->
+                            <div class="absolute top-10 -left-4 flex gap-2">
+                                <div class="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-xs border border-gray-100 hover:scale-110 transition-transform">S</div>
+                                <div class="w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-xs border border-gray-100 hover:scale-110 transition-transform">T</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-2xl font-bold text-text-main mb-3">Universal Notification Spam</h3>
+                        <p class="text-text-body mb-6 leading-relaxed">
+                            Connects to Slack, Teams, and Email to notify everyone about everything, all the time.
+                        </p>
+                        <a href="#" class="inline-flex items-center font-semibold text-brand-600 hover:text-brand-700 group">
+                            Integrate Chaos
+                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Chat Interface Section -->
+    <section class="py-24 bg-white border-t border-gray-200 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                
+                <!-- Left: Text -->
+                <div>
+                    <span class="text-brand-600 font-bold tracking-wider uppercase text-sm mb-2 block">Chat Interface</span>
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-text-main mb-6 tracking-tight">Bring your marketing everywhere.</h2>
+                    <p class="text-lg text-text-body mb-8 leading-relaxed">
+                        Pivotly's mobile app allows you to disrupt workflows from the golf course, the coffee shop, or your second home in Bali.
+                    </p>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-3 text-text-body">
+                            <div class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            One-tap buzzword injection
+                        </li>
+                        <li class="flex items-center gap-3 text-text-body">
+                            <div class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            Automated "Let's take this offline" replies
+                        </li>
+                    </ul>
+
+                    <button class="text-brand-600 font-bold hover:underline text-lg">View the mobile app demo &rarr;</button>
+                </div>
+
+                <!-- Right: Visual (Phone Mockup) -->
+                <div class="relative flex justify-center">
+                    <!-- Glow Behind -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-brand-500/20 to-cyan-400/20 blur-3xl rounded-full"></div>
+
+                    <!-- Phone Frame -->
+                    <div class="relative w-[300px] h-[600px] bg-text-main rounded-[48px] p-3 shadow-2xl border-4 border-gray-800 transform rotate-[-2deg] hover:rotate-0 transition-all duration-500 z-10">
+                        <!-- Screen -->
+                        <div class="w-full h-full bg-white rounded-[36px] overflow-hidden relative flex flex-col">
+                            <!-- Status Bar -->
+                            <div class="h-8 bg-gray-50 w-full flex justify-between items-center px-6">
+                                <div class="w-12 h-4 bg-gray-200 rounded-full"></div>
+                                <div class="flex gap-1">
+                                    <div class="w-4 h-4 bg-gray-200 rounded-full"></div>
+                                    <div class="w-4 h-4 bg-gray-200 rounded-full"></div>
+                                </div>
+                            </div>
+
+                            <!-- Chat UI -->
+                            <div class="flex-1 p-4 bg-gray-50 flex flex-col gap-4 overflow-hidden">
+                                <!-- Msg 1 -->
+                                <div class="self-start bg-white p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] text-sm text-gray-600 border border-gray-100">
+                                    Pivotly, we need to leverage the synergies.
+                                </div>
+                                <!-- Msg 2 -->
+                                <div class="self-end bg-brand-600 p-3 rounded-2xl rounded-tr-none shadow-md max-w-[80%] text-sm text-white">
+                                    Understood. Initializing cross-functional paradigm shift...
+                                </div>
+                                <!-- Graphic inside chat -->
+                                <div class="self-end bg-brand-600 p-2 rounded-2xl rounded-tr-none shadow-md max-w-[80%]">
+                                    <div class="bg-white/20 rounded-lg p-3 flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-brand-600 font-bold">%</div>
+                                        <div class="text-xs text-white/90">
+                                            <div class="font-bold">Efficiency +400%</div>
+                                            <div>Based on zero data</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Input Area -->
+                            <div class="h-16 bg-white border-t border-gray-100 flex items-center px-4 gap-2">
+                                <div class="w-8 h-8 bg-gray-100 rounded-full"></div>
+                                <div class="flex-1 h-10 bg-gray-50 rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Floating Badge -->
+                    <div class="absolute top-20 -right-4 bg-white p-3 rounded-xl shadow-xl border border-gray-100 z-20 anim-float">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span class="text-xs font-bold text-text-main">Synergy Optimized</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-dashed border-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-2">
+                 <div class="w-8 h-8 bg-brand-600 rounded flex items-center justify-center">
+                    <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 20L20 4"></path>
+                    </svg>
+                </div>
+                <span class="font-bold text-text-main">Pivotly</span>
+            </div>
+            <p class="text-sm text-gray-500">© 2024 Pivotly Inc. No actual work was performed in the making of this site.</p>
+        </div>
+    </footer>
+
+    <!-- Script for Interactions -->
+    <script>
+        // Register ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Animations
+        gsap.from(".hero-title", {
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out",
+            delay: 0.2
+        });
+        
+        gsap.from(".hero-sub", {
+            y: 30,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out",
+            delay: 0.4
+        });
+
+        gsap.from(".hero-btns", {
+            y: 20,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out",
+            delay: 0.6
+        });
+
+        // SVG Line Drawing Effect on Scroll
+        document.querySelectorAll('.path-draw').forEach((path) => {
+            gsap.to(path, {
+                strokeDashoffset: 0,
+                duration: 2,
+                ease: "power2.inOut",
+                scrollTrigger: {
+                    trigger: path.closest('.card-visual'),
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Cards Stagger In
+        const cards = document.querySelectorAll('.blueprint-grid > div > div');
+        cards.forEach((card, i) => {
+            gsap.from(card, {
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 90%"
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

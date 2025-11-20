@@ -14,6 +14,21 @@
     "date": "2025-11-20"
   },
   {
+    "slug": "pivotly",
+    "title": "Pivotly",
+    "description": "Automate your corporate synergy: AI that schedules meetings about meetings, drafts excuses, and keeps the exec dashboard glowing while nothing ships.",
+    "tags": [
+      "saas",
+      "satire",
+      "ai",
+      "tailwind"
+    ],
+    "path": "experiments/pivotly.html",
+    "thumbnail": "thumbs/pivotly.png",
+    "accent": "#1E65FF",
+    "date": "2025-11-20"
+  },
+  {
     "slug": "loss-platform",
     "title": "LOSS Platform",
     "description": "Scale to $1M ARR overnight. The first B2B SaaS that trades your $1.00 for our $0.75—Infinite demand. Zero logic. Pure growth.",
