@@ -4,6 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "refresh": "node scripts/refresh.mjs"
+    "refresh": "node scripts/refresh.mjs",
+    "thumbs": "node scripts/capture-thumbs.mjs"
+  },
+  "devDependencies": {
+    "playwright-chromium": "^1.56.1"
   }
 }

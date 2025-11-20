@@ -16,6 +16,7 @@ Quick home for one-file app experiments. Each experiment is a standalone HTML fi
   } -->
   ```
 - Run `npm run refresh` to regenerate `manifest.json`.
+- Run `npm run thumbs` to capture 1200x630 thumbnails (needs Playwright’s bundled Chromium; installs via `npm install`).
 - Commit and push; Pages will serve `index.html` and every file under `experiments/`.
 
 ### Local preview

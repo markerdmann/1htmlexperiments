@@ -24,6 +24,15 @@ const pickAccent = (key) => {
   return palette[hash % palette.length];
 };
 
+const fileExists = async (filePath) => {
+  try {
+    await fs.stat(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 const readMeta = async (filePath) => {
   const content = await fs.readFile(filePath, "utf8");
   const metaMatch = content.match(/<!--\s*meta\s*({[\s\S]*?})\s*-->/i);
@@ -47,13 +56,18 @@ const collect = async () => {
     const stats = await fs.stat(fullPath);
     const base = path.basename(file, path.extname(file));
     const slug = meta.slug ? slugify(meta.slug) : slugify(base);
+    let thumbnail = meta.thumbnail || "";
+    const thumbCandidate = path.join(repoRoot, "thumbs", `${slug}.png`);
+    if (!thumbnail && (await fileExists(thumbCandidate))) {
+      thumbnail = path.join("thumbs", `${slug}.png`);
+    }
     entries.push({
       slug,
       title: meta.title || base.replace(/[-_]/g, " ") || "Untitled",
       description: meta.description || "",
       tags: Array.isArray(meta.tags) ? meta.tags : [],
       path: `experiments/${file}`,
-      thumbnail: meta.thumbnail || "",
+      thumbnail,
       accent: meta.accent || pickAccent(slug),
       date: meta.date || stats.mtime.toISOString().slice(0, 10),
     });

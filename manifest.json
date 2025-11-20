@@ -9,7 +9,7 @@
       "tailwind"
     ],
     "path": "experiments/vaporwave-nexus.html",
-    "thumbnail": "",
+    "thumbnail": "thumbs/vaporwave-nexus.png",
     "accent": "#ff2a6d",
     "date": "2025-11-20"
   },
@@ -24,7 +24,7 @@
       "tailwind"
     ],
     "path": "experiments/loss-platform.html",
-    "thumbnail": "",
+    "thumbnail": "thumbs/loss-platform.png",
     "accent": "#ff2a6d",
     "date": "2025-11-20"
   },
@@ -38,7 +38,7 @@
       "ambient"
     ],
     "path": "experiments/aurora.html",
-    "thumbnail": "",
+    "thumbnail": "thumbs/aurora.png",
     "accent": "#9be7ff",
     "date": "2025-11-20"
   }
