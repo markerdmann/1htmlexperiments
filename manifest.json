@@ -2,7 +2,7 @@
   {
     "slug": "vaporwave-nexus",
     "title": "Vaporwave Nexus OS",
-    "description": "Neon vaporwave SaaS-style dashboard with animated grid, sunset hero, and holographic panels.",
+    "description": "Speculative vaporwave control center for a neon SaaS launch—sunset hero, holographic panels, and grid motion for ’80s-future product stories.",
     "tags": [
       "vaporwave",
       "dashboard",
@@ -16,7 +16,7 @@
   {
     "slug": "loss-platform",
     "title": "LOSS Platform",
-    "description": "Retro-futuristic finance dashboard for the 75-cent dollar with neon grid, cards, and holographic widgets.",
+    "description": "Retro finance OS for a fictional 75¢ dollar—neon ledgers, yield cards, and glitchy widgets to pitch an alt-currency adventure.",
     "tags": [
       "vaporwave",
       "dashboard",
@@ -31,7 +31,7 @@
   {
     "slug": "aurora",
     "title": "Aurora Drift",
-    "description": "Animated aurora made from layered gradients and mouse parallax.",
+    "description": "An ambient hero section: living aurora gradients that track the cursor, perfect for announcing immersive creative tools.",
     "tags": [
       "canvas",
       "gradient",
