@@ -1,5 +1,19 @@
 [
   {
+    "slug": "vaporwave-nexus",
+    "title": "Vaporwave Nexus OS",
+    "description": "Neon vaporwave SaaS-style dashboard with animated grid, sunset hero, and holographic panels.",
+    "tags": [
+      "vaporwave",
+      "dashboard",
+      "tailwind"
+    ],
+    "path": "experiments/vaporwave-nexus.html",
+    "thumbnail": "",
+    "accent": "#ff2a6d",
+    "date": "2025-11-20"
+  },
+  {
     "slug": "aurora",
     "title": "Aurora Drift",
     "description": "Animated aurora made from layered gradients and mouse parallax.",
