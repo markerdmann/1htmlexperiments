@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- meta {
+    "title": "AI World Clocks",
+    "description": "Watch frontier AI models generate analog clocks in real-time. GPT-5.1, Gemini 3 Pro, Claude Opus 4.5, and Kimi K2 compete to render the current time.",
+    "tags": ["ai", "generative", "clocks", "openrouter"],
+    "accent": "#ffd166"
+  } -->
+  <title>AI World Clocks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f0f4f8;
+      --muted: #8899a6;
+      --accent: #ffd166;
+      --gpt: #10a37f;
+      --gemini: #4285f4;
+      --claude: #d97706;
+      --kimi: #a855f7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Space Grotesk", system-ui, sans-serif;
+    }
+    body {
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(16, 163, 127, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 0%, rgba(66, 133, 244, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+        var(--bg);
+    }
+
+    /* API Key Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 1rem;
+    }
+    .modal-overlay.hidden { display: none; }
+    .modal {
+      background: linear-gradient(145deg, rgba(20, 20, 30, 0.95), rgba(10, 10, 15, 0.98));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    }
+    .modal h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--accent), #ff9f43);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .modal p {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .modal input {
+      width: 100%;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+    .modal input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .modal input::placeholder { color: var(--muted); }
+    .modal-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+    .btn {
+      flex: 1;
+      padding: 0.9rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #ff9f43);
+      color: #0a0a0f;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 209, 102, 0.3); }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.12); }
+
+    /* Header */
+    header {
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--accent), #ff9f43);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+    .logo h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .current-time {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--accent);
+    }
+    .settings-btn {
+      padding: 0.6rem 1rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .settings-btn:hover { background: rgba(255, 255, 255, 0.1); color: var(--text); }
+
+    /* Status Bar */
+    .status-bar {
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+    .status-dot.active {
+      background: #22c55e;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .next-refresh {
+      margin-left: auto;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Grid */
+    .clocks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    /* Clock Card */
+    .clock-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .clock-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    .clock-header {
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .model-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+    .model-icon.gpt { background: rgba(16, 163, 127, 0.2); color: var(--gpt); }
+    .model-icon.gemini { background: rgba(66, 133, 244, 0.2); color: var(--gemini); }
+    .model-icon.claude { background: rgba(217, 119, 6, 0.2); color: var(--claude); }
+    .model-icon.kimi { background: rgba(168, 85, 247, 0.2); color: var(--kimi); }
+    .model-info h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+    .model-info span {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+    }
+    .clock-status {
+      margin-left: auto;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--muted);
+    }
+    .clock-status.loading {
+      background: rgba(255, 209, 102, 0.15);
+      color: var(--accent);
+    }
+    .clock-status.error {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+    .clock-status.success {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+    .clock-frame {
+      width: 100%;
+      aspect-ratio: 1;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .clock-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: white;
+    }
+    .clock-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      color: #666;
+    }
+    .clock-placeholder .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #eee;
+      border-top-color: #999;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .clock-footer {
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .token-count {
+      font-family: "JetBrains Mono", monospace;
+    }
+    .regenerate-btn {
+      padding: 0.4rem 0.8rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .regenerate-btn:hover { background: rgba(255, 255, 255, 0.1); color: var(--text); }
+
+    /* Footer */
+    footer {
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      header { padding: 1rem; }
+      .clocks-grid { padding: 1rem; gap: 1rem; }
+      .current-time { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- API Key Modal -->
+  <div class="modal-overlay" id="apiModal">
+    <div class="modal">
+      <h2>OpenRouter API Key</h2>
+      <p>Enter your OpenRouter API key to generate clocks using frontier AI models. Your key is stored locally and never sent anywhere except OpenRouter.</p>
+      <input type="password" id="apiKeyInput" placeholder="sk-or-v1-..." autocomplete="off">
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="window.open('https://openrouter.ai/keys', '_blank')">Get API Key</button>
+        <button class="btn btn-primary" id="saveApiKey">Start Generating</button>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo">
+      <div class="logo-icon">⏰</div>
+      <h1>AI World Clocks</h1>
+    </div>
+    <div class="header-right">
+      <div class="current-time" id="currentTime">--:--:--</div>
+      <button class="settings-btn" id="settingsBtn">Change API Key</button>
+    </div>
+  </header>
+
+  <div class="status-bar">
+    <div class="status-indicator">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusText">Waiting for API key...</span>
+    </div>
+    <div class="next-refresh" id="nextRefresh">Next refresh: --:--</div>
+  </div>
+
+  <main class="clocks-grid" id="clocksGrid"></main>
+
+  <footer>
+    Inspired by <a href="https://clocks.brianmoore.com/" target="_blank" rel="noopener">Brian Moore's AI World Clocks</a>.
+    Powered by <a href="https://openrouter.ai/" target="_blank" rel="noopener">OpenRouter</a>.
+  </footer>
+
+  <script>
+    // Models configuration
+    const MODELS = [
+      {
+        id: 'openai/gpt-5.1',
+        name: 'GPT-5.1',
+        provider: 'OpenAI',
+        class: 'gpt',
+        icon: 'GPT',
+        extraParams: { reasoning: { effort: 'high' } }
+      },
+      {
+        id: 'google/gemini-3-pro',
+        name: 'Gemini 3 Pro',
+        provider: 'Google',
+        class: 'gemini',
+        icon: 'G'
+      },
+      {
+        id: 'anthropic/claude-opus-4.5',
+        name: 'Claude Opus 4.5',
+        provider: 'Anthropic',
+        class: 'claude',
+        icon: 'C'
+      },
+      {
+        id: 'moonshotai/kimi-k2',
+        name: 'Kimi K2',
+        provider: 'Moonshot',
+        class: 'kimi',
+        icon: 'K',
+        extraParams: { reasoning: { effort: 'high' } }
+      }
+    ];
+
+    const MAX_TOKENS = 2000;
+    const STORAGE_KEY = 'ai-clocks-openrouter-key';
+
+    let apiKey = localStorage.getItem(STORAGE_KEY) || '';
+    let clockStates = {};
+    let nextRefreshTime = null;
+
+    // DOM Elements
+    const apiModal = document.getElementById('apiModal');
+    const apiKeyInput = document.getElementById('apiKeyInput');
+    const saveApiKeyBtn = document.getElementById('saveApiKey');
+    const settingsBtn = document.getElementById('settingsBtn');
+    const currentTimeEl = document.getElementById('currentTime');
+    const statusDot = document.getElementById('statusDot');
+    const statusText = document.getElementById('statusText');
+    const nextRefreshEl = document.getElementById('nextRefresh');
+    const clocksGrid = document.getElementById('clocksGrid');
+
+    // Initialize
+    function init() {
+      renderClockCards();
+      updateCurrentTime();
+      setInterval(updateCurrentTime, 1000);
+
+      if (apiKey) {
+        hideModal();
+        startClockGeneration();
+      } else {
+        showModal();
+      }
+    }
+
+    function showModal() {
+      apiModal.classList.remove('hidden');
+      apiKeyInput.value = apiKey;
+      apiKeyInput.focus();
+    }
+
+    function hideModal() {
+      apiModal.classList.add('hidden');
+    }
+
+    saveApiKeyBtn.addEventListener('click', () => {
+      const key = apiKeyInput.value.trim();
+      if (key) {
+        apiKey = key;
+        localStorage.setItem(STORAGE_KEY, key);
+        hideModal();
+        startClockGeneration();
+      }
+    });
+
+    apiKeyInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') saveApiKeyBtn.click();
+    });
+
+    settingsBtn.addEventListener('click', showModal);
+
+    function updateCurrentTime() {
+      const now = new Date();
+      currentTimeEl.textContent = now.toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+
+      // Update countdown to next refresh
+      if (nextRefreshTime) {
+        const diff = Math.max(0, Math.ceil((nextRefreshTime - now) / 1000));
+        const mins = Math.floor(diff / 60);
+        const secs = diff % 60;
+        nextRefreshEl.textContent = `Next refresh: ${mins}:${secs.toString().padStart(2, '0')}`;
+      }
+    }
+
+    function renderClockCards() {
+      clocksGrid.innerHTML = MODELS.map(model => `
+        <div class="clock-card" data-model="${model.id}">
+          <div class="clock-header">
+            <div class="model-icon ${model.class}">${model.icon}</div>
+            <div class="model-info">
+              <h3>${model.name}</h3>
+              <span>${model.provider}</span>
+            </div>
+            <div class="clock-status" id="status-${model.id.replace(/[/.]/g, '-')}">Ready</div>
+          </div>
+          <div class="clock-frame" id="frame-${model.id.replace(/[/.]/g, '-')}">
+            <div class="clock-placeholder">
+              <div class="spinner"></div>
+              <span>Waiting to generate...</span>
+            </div>
+          </div>
+          <div class="clock-footer">
+            <span class="token-count" id="tokens-${model.id.replace(/[/.]/g, '-')}">-- tokens</span>
+            <button class="regenerate-btn" onclick="regenerateClock('${model.id}')">Regenerate</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getTimeString() {
+      const now = new Date();
+      return now.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
+
+    function getPrompt(time) {
+      return `Create HTML/CSS of an analog clock showing ${time}. Include numbers (or numerals) if you wish, and have a CSS animated second hand. Make it responsive and use a white background. Return ONLY the HTML/CSS code with no markdown formatting.`;
+    }
+
+    async function generateClock(model) {
+      const safeId = model.id.replace(/[/.]/g, '-');
+      const statusEl = document.getElementById(`status-${safeId}`);
+      const frameEl = document.getElementById(`frame-${safeId}`);
+      const tokensEl = document.getElementById(`tokens-${safeId}`);
+
+      statusEl.className = 'clock-status loading';
+      statusEl.textContent = 'Generating...';
+      frameEl.innerHTML = `
+        <div class="clock-placeholder">
+          <div class="spinner"></div>
+          <span>Generating clock...</span>
+        </div>
+      `;
+
+      const time = getTimeString();
+      const prompt = getPrompt(time);
+
+      try {
+        const requestBody = {
+          model: model.id,
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: MAX_TOKENS,
+          temperature: 0.7,
+          ...(model.extraParams || {})
+        };
+
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`,
+            'HTTP-Referer': window.location.href,
+            'X-Title': 'AI World Clocks'
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error?.message || `HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        const content = data.choices?.[0]?.message?.content || '';
+        const usage = data.usage?.total_tokens || '--';
+
+        // Clean up the response (remove markdown code blocks if present)
+        let html = content
+          .replace(/^```html?\n?/i, '')
+          .replace(/\n?```$/i, '')
+          .trim();
+
+        // Render in iframe
+        const iframe = document.createElement('iframe');
+        iframe.sandbox = 'allow-scripts';
+        frameEl.innerHTML = '';
+        frameEl.appendChild(iframe);
+
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        iframeDoc.open();
+        iframeDoc.write(html);
+        iframeDoc.close();
+
+        statusEl.className = 'clock-status success';
+        statusEl.textContent = 'Generated';
+        tokensEl.textContent = `${usage} tokens`;
+
+        clockStates[model.id] = { html, time, tokens: usage };
+      } catch (error) {
+        console.error(`Error generating clock for ${model.name}:`, error);
+        statusEl.className = 'clock-status error';
+        statusEl.textContent = 'Error';
+        frameEl.innerHTML = `
+          <div class="clock-placeholder" style="color: #ef4444;">
+            <span style="font-size: 2rem;">⚠️</span>
+            <span style="text-align: center; padding: 0 1rem;">${error.message}</span>
+          </div>
+        `;
+      }
+    }
+
+    async function regenerateClock(modelId) {
+      const model = MODELS.find(m => m.id === modelId);
+      if (model) {
+        await generateClock(model);
+      }
+    }
+
+    async function generateAllClocks() {
+      statusDot.classList.add('active');
+      statusText.textContent = 'Generating clocks...';
+
+      // Generate all clocks in parallel
+      await Promise.all(MODELS.map(model => generateClock(model)));
+
+      statusText.textContent = 'All clocks generated';
+
+      // Schedule next refresh at the start of the next minute
+      scheduleNextRefresh();
+    }
+
+    function scheduleNextRefresh() {
+      const now = new Date();
+      const nextMinute = new Date(now);
+      nextMinute.setSeconds(0, 0);
+      nextMinute.setMinutes(nextMinute.getMinutes() + 1);
+
+      nextRefreshTime = nextMinute;
+      const delay = nextMinute - now;
+
+      setTimeout(() => {
+        generateAllClocks();
+      }, delay);
+    }
+
+    function startClockGeneration() {
+      statusDot.classList.add('active');
+      statusText.textContent = 'Starting...';
+      generateAllClocks();
+    }
+
+    // Start
+    init();
+  </script>
+</body>
+</html>

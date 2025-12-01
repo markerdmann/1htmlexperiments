@@ -1,5 +1,20 @@
 [
   {
+    "slug": "ai-clocks",
+    "title": "AI World Clocks",
+    "description": "Watch frontier AI models generate analog clocks in real-time. GPT-5.1, Gemini 3 Pro, Claude Opus 4.5, and Kimi K2 compete to render the current time.",
+    "tags": [
+      "ai",
+      "generative",
+      "clocks",
+      "openrouter"
+    ],
+    "path": "ai-clocks.html",
+    "thumbnail": "",
+    "accent": "#ffd166",
+    "date": "2025-12-01"
+  },
+  {
     "slug": "vaporwave-nexus",
     "title": "Vaporwave Nexus OS",
     "description": "A cinematic command center for your launch story—sunset hero, holographic metrics, and neon call-to-actions that sell a SaaS as if it just landed from 2084.",
